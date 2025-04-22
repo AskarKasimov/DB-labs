@@ -69,3 +69,41 @@ CREATE TABLE
         system_id INT REFERENCES system (id) ON DELETE CASCADE,
         PRIMARY KEY (star_id, system_id)
     );
+
+CREATE OR REPLACE FUNCTION update_master_robot_count()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- удаление робота
+    IF (TG_OP = 'DELETE') THEN
+        UPDATE master 
+        SET robot_count = robot_count - 1 
+        WHERE id = OLD.master_id;
+        RETURN OLD;
+        
+    -- добавление робота
+    ELSIF (TG_OP = 'INSERT') THEN
+        UPDATE master 
+        SET robot_count = robot_count + 1 
+        WHERE id = NEW.master_id;
+        RETURN NEW;
+        
+    -- изменение master
+    ELSIF (TG_OP = 'UPDATE') THEN
+        IF (OLD.master_id IS DISTINCT FROM NEW.master_id) THEN
+            UPDATE master 
+            SET robot_count = robot_count - 1 
+            WHERE id = OLD.master_id;
+            
+            UPDATE master 
+            SET robot_count = robot_count + 1 
+            WHERE id = NEW.master_id;
+        END IF;
+        RETURN NEW;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- триггер
+CREATE TRIGGER robot_count_trigger
+AFTER INSERT OR DELETE OR UPDATE OF master_id ON robot
+FOR EACH ROW EXECUTE FUNCTION update_master_robot_count();
