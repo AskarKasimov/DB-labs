@@ -1,118 +1,105 @@
--- Вставляем данные в таблицу master
-INSERT INTO
-    master (name, is_rogue, birthday)
-VALUES
-    ('Доктор', FALSE, '1963-11-23'),
-    ('Мастер', TRUE, '1971-01-02'),
-    ('Мисси', FALSE, '1976-09-04'),
-    ('Рори', FALSE, '2010-04-03');
-
--- Вставляем данные в таблицу ship_model
-INSERT INTO
-    ship_model (name, max_speed)
-VALUES
-    ('ТАРДИС', 1000.5),
-    ('Вардис', 950.3),
-    ('Позолоченный ястреб', 750.0),
-    ('Киберкорабль', 800.2);
-
--- Вставляем данные в таблицу ship
-INSERT INTO
-    ship (name, description, model_id, owner_id)
-VALUES
-    (
-        'Синяя коробка',
-        'Путешествует во времени и пространстве',
-        1,
-        1
-    ),
-    ('Красная коробка', 'Альтернативная ТАРДИС', 2, 2),
-    (
-        'Золотой корабль',
-        'Любимый корабль Мастера',
-        3,
-        2
-    ),
-    (
-        'Киберфлот',
-        'Флагманский корабль киберлюдей',
-        4,
-        NULL
-    );
-
--- Вставляем данные в таблицу robot_model
-INSERT INTO
-    robot_model (name, power)
-VALUES
-    ('К-9', 50.5),
-    ('Далек', 75.3),
-    ('Киберчеловек', 90.0),
-    ('Андроид', 60.2);
-
--- Вставляем данные в таблицу robot
-INSERT INTO
-    robot (name, description, model_id)
-VALUES
-    ('К-9 Марк I', 'Верный спутник Доктора', 1),
-    ('К-9 Марк II', 'Улучшенная версия', 1),
-    ('Далек Сек', 'Особо опасный', 2),
-    ('Киберлидер', 'Командует флотом', 3);
-
--- Вставляем данные в таблицу master_and_robots
-INSERT INTO
-    master_and_robots (robot_id, master_id)
-VALUES
-    (1, 1),
-    (2, 1),
-    (3, 2),
-    (4, 3);
-
--- Вставляем данные в таблицу system
+-- system
 INSERT INTO
     system (name, description)
 VALUES
-    ('Солнечная система', 'Наша родная система'),
-    ('Галлифрей', 'Родная система Повелителей Времени'),
-    ('Скаро', 'Родная система далеков'),
-    ('Альфа Центавра', 'Ближайшая звёздная система');
+    ('Solar System', 'Our home system'),
+    ('Alpha Centauri', 'Nearest star system'),
+    ('Sirius System', 'Brightest star system'),
+    (
+        'Barnard''s Star System',
+        'Nearby red dwarf system'
+    ),
+    ('Tau Ceti System', 'Potentially habitable system');
 
--- Вставляем данные в таблицу star
+-- planet
+INSERT INTO
+    planet (name, description, size, system_id)
+VALUES
+    ('Earth', 'Blue planet', 12742, 1),
+    (
+        'Proxima b',
+        'Exoplanet orbiting Proxima Centauri',
+        11400,
+        2
+    ),
+    ('Sirius B', 'White dwarf planet', 12000, 3),
+    ('Barnard b', 'Cold exoplanet', 10000, 4),
+    (
+        'Tau Ceti e',
+        'Potentially habitable exoplanet',
+        13000,
+        5
+    );
+
+-- master
+INSERT INTO
+    master (name, is_rogue, birthday, robot_count, planet_id)
+VALUES
+    ('John Doe', FALSE, '1980-05-15', 3, 1),
+    ('Jane Smith', TRUE, '1975-08-22', 5, 2),
+    ('Alice Johnson', FALSE, '1990-12-01', 2, 3),
+    ('Bob Brown', FALSE, '1985-03-10', 0, 4),
+    ('Eve Davis', TRUE, '1992-07-30', 1, 5);
+
+-- ship_model
+INSERT INTO
+    ship_model (name, max_speed)
+VALUES
+    ('Falcon', 1500.5),
+    ('Eagle', 1200.0),
+    ('Hawk', 1300.75),
+    ('Raven', 1100.25),
+    ('Condor', 1400.0);
+
+-- ship
+INSERT INTO
+    ship (name, description, model_id, owner_id)
+VALUES
+    ('Falcon One', 'First Falcon model', 1, 1),
+    ('Eagle Eye', 'Advanced Eagle model', 2, 2),
+    ('Hawk Wing', 'Stealth Hawk model', 3, 3),
+    ('Raven Shadow', 'Fast Raven model', 4, 4),
+    ('Condor Strike', 'Powerful Condor model', 5, 5);
+
+-- robot_model
+INSERT INTO
+    robot_model (name, power)
+VALUES
+    ('RX-78', 500.0),
+    ('T-800', 750.5),
+    ('C-3PO', 300.25),
+    ('R2-D2', 400.0),
+    ('HAL 9000', 1000.0);
+
+-- robot
+INSERT INTO
+    robot (name, description, model_id, master_id)
+VALUES
+    ('Robo1', 'First robot', 1, 1),
+    ('Robo2', 'Second robot', 2, 2),
+    ('Robo3', 'Third robot', 3, 3),
+    ('Robo4', 'Fourth robot', 4, 4),
+    ('Robo5', 'Fifth robot', 5, 5);
+
+-- star
 INSERT INTO
     star (name, description)
 VALUES
-    ('Солнце', 'Жёлтый карлик'),
-    ('Кастор', 'Двойная звезда'),
-    ('Капелла', 'Жёлтый гигант'),
-    ('Бетельгейзе', 'Красный сверхгигант');
+    ('Sun', 'Our star'),
+    (
+        'Alpha Centauri A',
+        'Primary star of Alpha Centauri'
+    ),
+    ('Sirius A', 'Brightest star in the night sky'),
+    ('Barnard''s Star', 'Red dwarf star'),
+    ('Tau Ceti', 'Sun-like star');
 
--- Вставляем данные в таблицу system_and_stars
+-- system_and_stars
 INSERT INTO
     system_and_stars (star_id, system_id)
 VALUES
     (1, 1),
-    (2, 4),
-    (3, 2),
-    (4, 3);
-
--- Вставляем данные в таблицу planet
-INSERT INTO
-    planet (name, description, size, system_id)
-VALUES
-    ('Земля', 'Третья планета от Солнца', 12742.0, 1),
-    (
-        'Галлифрей',
-        'Планета Повелителей Времени',
-        14321.5,
-        2
-    ),
-    ('Скаро', 'Родина далеков', 11890.3, 3),
-    ('Марс', 'Красная планета', 6779.0, 1);
-
--- Вставляем данные в таблицу master_and_planet
-INSERT INTO
-    master_and_planet (master_id, planet_id)
-VALUES
-    (1, 1),
     (2, 2),
-    (3, 1),
-    (4, 1);
+    (3, 3),
+    (4, 4),
+    (5, 5);
