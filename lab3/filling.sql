@@ -31,15 +31,15 @@ VALUES
         5
     );
 
--- master
+-- master (изначально robot_count = 0)
 INSERT INTO
     master (name, is_rogue, birthday, robot_count, planet_id)
 VALUES
-    ('John Doe', FALSE, '1980-05-15', 3, 1),
-    ('Jane Smith', TRUE, '1975-08-22', 5, 2),
-    ('Alice Johnson', FALSE, '1990-12-01', 2, 3),
+    ('John Doe', FALSE, '1980-05-15', 0, 1),
+    ('Jane Smith', TRUE, '1975-08-22', 0, 2),
+    ('Alice Johnson', FALSE, '1990-12-01', 0, 3),
     ('Bob Brown', FALSE, '1985-03-10', 0, 4),
-    ('Eve Davis', TRUE, '1992-07-30', 1, 5);
+    ('Eve Davis', TRUE, '1992-07-30', 0, 5);
 
 -- ship_model
 INSERT INTO
@@ -71,15 +71,32 @@ VALUES
     ('R2-D2', 400.0),
     ('HAL 9000', 1000.0);
 
--- robot
+-- robot (по 2 робота на первых трёх мастеров, по 1 на двух остальных)
 INSERT INTO
     robot (name, description, model_id, master_id)
 VALUES
     ('Robo1', 'First robot', 1, 1),
-    ('Robo2', 'Second robot', 2, 2),
-    ('Robo3', 'Third robot', 3, 3),
-    ('Robo4', 'Fourth robot', 4, 4),
-    ('Robo5', 'Fifth robot', 5, 5);
+    ('Robo2', 'Second robot', 2, 1),
+    ('Robo3', 'Third robot', 3, 2),
+    ('Robo4', 'Fourth robot', 4, 2),
+    ('Robo5', 'Fifth robot', 5, 3),
+    ('Robo6', 'Sixth robot', 1, 3),
+    ('Robo7', 'Seventh robot', 2, 4),
+    ('Robo8', 'Eighth robot', 3, 5),
+    ('Robo9', 'Ninth robot', 4, 1),
+    ('Robo10', 'Tenth robot', 5, 2);
+
+-- теперь обновим robot_count у мастеров согласно количеству роботов
+UPDATE master
+SET
+    robot_count = (
+        SELECT
+            COUNT(*)
+        FROM
+            robot
+        WHERE
+            master_id = master.id
+    );
 
 -- star
 INSERT INTO
